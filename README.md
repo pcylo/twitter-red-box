@@ -1,2 +1,2 @@
-# twitter-red-box
+# Twitter Red Box
 Personal tweets manager
