@@ -1,2 +1,2 @@
 # Twitter Red Box
-Personal tweets manager
+Personal tweets manager. The magic will happen here soon!
