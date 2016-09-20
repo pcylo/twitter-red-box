@@ -7,3 +7,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
       :image_size => 'bigger'
     }
 end
+
+OmniAuth.config.on_failure = Proc.new do |env|
+  SessionsController.action(:auth_failure).call(env)
+end
