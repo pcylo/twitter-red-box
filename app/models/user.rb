@@ -29,7 +29,7 @@ class User < ApplicationRecord
       user.secret     = auth_hash.credentials.secret,
       user.avatar     = auth_hash.info.image,
       user.url        = auth_hash.info.urls.Twitter,
-      user.background = auth_hash.extra.raw_info.profile_background_image_url_https
+      user.background = auth_hash.extra.raw_info.profile_banner_url
       user.save!
     end
   end

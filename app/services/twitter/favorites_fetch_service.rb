@@ -1,0 +1,2 @@
+class Twitter::FavoritesFetchSerice
+end
