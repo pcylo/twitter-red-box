@@ -23,12 +23,12 @@ class User < ApplicationRecord
 
   def self.from_omniauth(auth_hash)
     where(uid: auth_hash.uid).first_or_initialize.tap do |user|
-      user.name       = auth_hash.info.name,
-      user.nickname   = auth_hash.info.nickname,
-      user.token      = auth_hash.credentials.token,
-      user.secret     = auth_hash.credentials.secret,
-      user.avatar     = auth_hash.info.image,
-      user.url        = auth_hash.info.urls.Twitter,
+      user.name       = auth_hash.info.name
+      user.nickname   = auth_hash.info.nickname
+      user.token      = auth_hash.credentials.token
+      user.secret     = auth_hash.credentials.secret
+      user.avatar     = auth_hash.info.image
+      user.url        = auth_hash.info.urls.Twitter
       user.background = auth_hash.extra.raw_info.profile_banner_url
       user.save!
     end
@@ -41,6 +41,10 @@ class User < ApplicationRecord
       config.access_token        = token
       config.access_token_secret = secret
     end
+  end
+
+  def to_s
+    "#{name} (#{nickname}) ID: #{uid}"
   end
 
 end

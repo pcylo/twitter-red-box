@@ -1,2 +1,2 @@
-class Twitter::FavoritesFetchSerice
+class Twitter::FavoritesFetchService
 end
