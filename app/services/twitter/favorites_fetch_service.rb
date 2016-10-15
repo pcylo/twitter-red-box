@@ -1,2 +1,4 @@
-class Twitter::FavoritesFetchService
+module Twitter
+  class FavoritesFetchService
+  end
 end

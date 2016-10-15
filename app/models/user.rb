@@ -20,7 +20,6 @@
 #
 
 class User < ApplicationRecord
-
   def self.from_omniauth(auth_hash)
     where(uid: auth_hash.uid).first_or_initialize.tap do |user|
       user.name       = auth_hash.info.name
@@ -46,5 +45,4 @@ class User < ApplicationRecord
   def to_s
     "#{name} (#{nickname}) ID: #{uid}"
   end
-
 end
