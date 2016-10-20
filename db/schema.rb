@@ -10,10 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160919211326) do
+ActiveRecord::Schema.define(version: 20161020203314) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "tweets", force: :cascade do |t|
+    t.integer  "user_id"
+    t.bigint   "identifier"
+    t.string   "text"
+    t.string   "url"
+    t.string   "author"
+    t.string   "author_url"
+    t.string   "author_image"
+    t.datetime "added_at"
+    t.text     "notes"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["added_at"], name: "index_tweets_on_added_at", using: :btree
+    t.index ["author"], name: "index_tweets_on_author", using: :btree
+    t.index ["identifier"], name: "index_tweets_on_identifier", using: :btree
+    t.index ["text"], name: "index_tweets_on_text", using: :btree
+    t.index ["user_id"], name: "index_tweets_on_user_id", using: :btree
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "uid"
@@ -29,4 +48,5 @@ ActiveRecord::Schema.define(version: 20160919211326) do
     t.index ["uid"], name: "index_users_on_uid", using: :btree
   end
 
+  add_foreign_key "tweets", "users"
 end
