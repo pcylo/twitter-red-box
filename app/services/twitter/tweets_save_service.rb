@@ -6,7 +6,7 @@ module Twitter
 
     def call(tweets:, type:)
       tweets.each do |tweet|
-        user.tweets.where(identifier: tweet.tweet).first_or_initialize.tap do |new_tweet|
+        user.tweets.where(identifier: tweet.identifier).first_or_initialize.tap do |new_tweet|
           new_tweet.text         = tweet.text
           new_tweet.url          = tweet.url
           new_tweet.author       = tweet.author

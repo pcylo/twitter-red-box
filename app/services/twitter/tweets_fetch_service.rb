@@ -7,7 +7,7 @@ module Twitter
     def initialize(user:)
       @user = user
       @twitter = user.twitter
-      @tweets_save_service = TweetsSaveService.new(@user)
+      @tweets_save_service = Twitter::TweetsSaveService.new(user: @user)
     end
 
     def call(type)
@@ -16,9 +16,7 @@ module Twitter
       load_existing_tweets(type)
 
       # TODO: set progress marker on the user instance
-
-      # Fetch first page
-      if has_any_tweets?
+      fetch_first(type) unless @existing_tweets.any?
 
       fetch_older_than_existing(type)
       fetch_newer_than_existing(type)
@@ -32,20 +30,16 @@ module Twitter
 
     def load_existing_tweets(type)
       @existing_tweets = user.tweets.send(type.to_s).pluck(:identifier)
-      @oldest_id, @recent_id = existing_tweets.minmax
-    end
-
-    def has_any_tweets?
-      @existing_tweets.any?
+      @oldest_id, @recent_id = @existing_tweets.minmax
     end
 
     def fetch_older_than_existing(type)
       loop_counter = 0
       loop do
         loop_counter += 1
-        Rails.logger.info("Fetching tweets older than #{@oldest_id} for #{nickname}")
-        results = fetch_page(type, max_id: @oldest_id)
-        tweets_save_service.call(results, type)
+        Rails.logger.info("Fetching tweets older than #{@oldest_id} for #{user.nickname}")
+        results = fetch_page(type: type, max_id: @oldest_id)
+        tweets_save_service.call(tweets: results, type: type)
         load_existing_tweets(type)
         break if results.count < DEFAULT_PAGE_SIZE || loop_counter > DEFAULT_LOOP_LIMIT
       end
@@ -55,18 +49,18 @@ module Twitter
       loop_counter = 0
       loop do
         loop_counter += 1
-        Rails.logger.info("Fetching tweets newer than #{@recent_id} for #{nickname}")
-        results = fetch_page(type, since_id: @recent_id)
-        tweets_save_service.call(results, type)
+        Rails.logger.info("Fetching tweets newer than #{@recent_id} for #{user.nickname}")
+        results = fetch_page(type: type, since_id: @recent_id)
+        tweets_save_service.call(tweets: results, type: type)
         load_existing_tweets(type)
         break if results.count < DEFAULT_PAGE_SIZE || loop_counter > DEFAULT_LOOP_LIMIT
       end
     end
 
     def fetch_first(type)
-      Rails.logger.info("Fetching first tweets for #{nickname}")
-      results = fetch_page(type)
-      tweets_save_service.call(results, type)
+      Rails.logger.info("Fetching first tweets for #{user.nickname}")
+      results = fetch_page(type: type)
+      tweets_save_service.call(tweets: results, type: type)
       load_existing_tweets(type)
     end
 
