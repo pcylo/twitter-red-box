@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161020203314) do
+ActiveRecord::Schema.define(version: 20161205141421) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,12 +25,16 @@ ActiveRecord::Schema.define(version: 20161020203314) do
     t.string   "author_image"
     t.datetime "added_at"
     t.text     "notes"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.boolean  "timeline",     default: false
+    t.boolean  "favorite",     default: false
     t.index ["added_at"], name: "index_tweets_on_added_at", using: :btree
     t.index ["author"], name: "index_tweets_on_author", using: :btree
+    t.index ["favorite"], name: "index_tweets_on_favorite", using: :btree
     t.index ["identifier"], name: "index_tweets_on_identifier", using: :btree
     t.index ["text"], name: "index_tweets_on_text", using: :btree
+    t.index ["timeline"], name: "index_tweets_on_timeline", using: :btree
     t.index ["user_id"], name: "index_tweets_on_user_id", using: :btree
   end
 

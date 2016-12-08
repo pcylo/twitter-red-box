@@ -20,6 +20,8 @@
 #
 
 class User < ApplicationRecord
+  has_many :tweets
+
   def self.from_omniauth(auth_hash)
     where(uid: auth_hash.uid).first_or_initialize.tap do |user|
       user.name       = auth_hash.info.name
