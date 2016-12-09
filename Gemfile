@@ -37,7 +37,7 @@ gem 'annotate', '~> 2.7.1'
 gem 'figaro', '~> 1.1.1'
 
 gem 'omniauth-twitter', '~> 1.2.1'
-gem 'twitter', '~> 5.16.0'
+gem 'twitter', '~> 6.0.0'
 
 gem 'rubocop', '~> 0.43.0', require: false
 

@@ -6,13 +6,11 @@ module Twitter
 
     def call(tweets:, type:)
       tweets.each do |tweet|
-        user.tweets.where(identifier: tweet.identifier).first_or_initialize.tap do |new_tweet|
-          new_tweet.text         = tweet.text
-          new_tweet.url          = tweet.url
-          new_tweet.author       = tweet.author
-          new_tweet.author_url   = tweet.author_url
-          new_tweet.author_image = tweet.author_image
-          new_tweet.added_at     = tweet.added_at
+        user.tweets.where(identifier: tweet.id).first_or_initialize.tap do |new_tweet|
+          new_tweet.text         = tweet.full_text
+          new_tweet.author       = tweet.user.screen_name
+          new_tweet.author_image = tweet.user.profile_image_url.to_s.gsub('_normal.', '_bigger.')
+          new_tweet.added_at     = tweet.created_at
           new_tweet.timeline     = true if type == :timeline
           new_tweet.favorite     = true if type == :favorite
           new_tweet.save!

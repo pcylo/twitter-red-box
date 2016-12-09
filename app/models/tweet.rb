@@ -6,9 +6,7 @@
 #  user_id      :integer
 #  identifier   :integer
 #  text         :string
-#  url          :string
 #  author       :string
-#  author_url   :string
 #  author_image :string
 #  added_at     :datetime
 #  notes        :text

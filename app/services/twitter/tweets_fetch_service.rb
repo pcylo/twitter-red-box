@@ -41,7 +41,7 @@ module Twitter
         results = fetch_page(type: type, max_id: @oldest_id)
         tweets_save_service.call(tweets: results, type: type)
         load_existing_tweets(type)
-        break if results.count < DEFAULT_PAGE_SIZE || loop_counter > DEFAULT_LOOP_LIMIT
+        break if results.count == 1 || loop_counter > DEFAULT_LOOP_LIMIT
       end
     end
 
@@ -53,7 +53,7 @@ module Twitter
         results = fetch_page(type: type, since_id: @recent_id)
         tweets_save_service.call(tweets: results, type: type)
         load_existing_tweets(type)
-        break if results.count < DEFAULT_PAGE_SIZE || loop_counter > DEFAULT_LOOP_LIMIT
+        break if results.count == 0 || loop_counter > DEFAULT_LOOP_LIMIT
       end
     end
 
